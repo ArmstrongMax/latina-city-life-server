@@ -13,51 +13,14 @@ const partiesSchema = new mongoose.Schema(
             type: Date,
             required: [true, 'Party must have a date']
         },
-        planner: {
-            type: String,
-            required: [true, 'Party must have a planner'],
-            trim: true
-        },
-        plannerContacts: [String],
-        dressCode: {
-            type: String,
-            trim: true
-        },
         fullPrice: {
             type: Number,
             required: [true, 'Party must have price']
         },
-        minPrice: {
-            type: Number
-        },
-        discountRequirements: {
-            type: String,
-            trim: true
-        },
-        paymentMethod: {
-            type: String,
-            enum: ['cash', 'card', 'transfer'],
-            default: 'cash',
-            trim: true
-        },
-        placePoint: {
-            type: {
-                type: String,
-                default: 'Point',
-                enum: ['Point']
-            },
-            coordinates: [Number],
-            },
-        placeAddress: {
-            description: {
-                type:String,
-                trim: true
-            },
-            address: {
-                type:String,
-                trim: true,
-                required: true
-            }
+        placeAddress:  {
+            type:String,
+            trim: true,
+            required: true
         },
         description: {
             type: String,
@@ -78,7 +41,6 @@ const partiesSchema = new mongoose.Schema(
         },
         danceStyles: {
             type: String,
-            enum: ['bachata', 'salsa', 'kizomba', 'zouk', 'tango'],
             default: 'bachata'
         },
         participants: {
@@ -89,24 +51,6 @@ const partiesSchema = new mongoose.Schema(
             type: String
         },
         images: [String],
-        djs: [{type:String, trim: true}],
-        hasPhotographer:
-            {
-                type: Boolean,
-                default: false
-            },
-        hasVideographer:
-            {
-                type: Boolean,
-                default: false
-            },
-        photographer: {type:String, trim: true},
-        videographer:  {type:String, trim: true},
-        hasBar:{
-            type: Boolean,
-            default: false
-        },
-        musicFormat: {type:String, trim: true}
     },
     {
         toJSON: { virtuals: true },
