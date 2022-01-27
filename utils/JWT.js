@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 
 const tokenExpires = process.env.JWT_EXPIRES_IN
 
-exports.signToken = (id) => {
+const signToken = (id) => {
     return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: tokenExpires}
     )
 }

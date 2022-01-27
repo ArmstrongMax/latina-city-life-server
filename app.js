@@ -3,6 +3,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const globalErrorHandler = require('./controllers/errorController')
 const usersRouter = require('./routes/usersRouter')
 const partiesRouter = require ('./routes/partiesRouter')
 const participantsRouter = require('./routes/participantsRouter')
@@ -27,6 +28,6 @@ app.use('/api/v1/participants', participantsRouter)
 app.use('/images', imagesRouter)
 app.get('/favicon.ico', (req, res) => res.status(200).end());
 
-
+app.use(globalErrorHandler)
 
 module.exports = app;
