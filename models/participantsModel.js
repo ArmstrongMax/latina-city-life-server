@@ -18,9 +18,12 @@ const participantsSchema = new mongoose.Schema({
 })
 
 participantsSchema.pre(/^find/, function (next) {
-this.populate('user').populate({
+this.populate({
+    path:'user',
+    select:['firstName', 'photoSmall'],
+}).populate({
     path: 'party',
-    select: 'name'
+    select: ['name', 'imageCover']
 })
     next()
 })

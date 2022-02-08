@@ -23,11 +23,16 @@ const usersSchema = new mongoose.Schema({
     },
     photo:{
         type: String,
-        default: 'defaultUserPhoto.jpg'
+        default: 'http://127.0.0.1:8000/images/users/defaultUserImage.png'
     },
+    photoSmall:{
+        type: String,
+        default: 'http://127.0.0.1:8000/images/users/defaultUserImage-small.png'
+    },
+
     systemRole: {
         type: String,
-        enum: ['user', 'admin', 'moderator'],
+        enum: ['пользователь', 'администратор', 'модератор'],
         default: 'user'
     },
     password: {
@@ -57,12 +62,11 @@ const usersSchema = new mongoose.Schema({
     dancingSince:Date,
     communityStatus:{
         type: String,
-        enum: ['dancer', 'teacher', 'planner', 'spectator'],
-        default: 'dancer'
+        enum: ['танцор', 'преподаватель', 'организатор', 'наблюдатель'],
+        default: 'танцор'
     },
     danceStyles:{
-        type: String,
-        enum: ['bachata', 'salsa', 'kizomba', 'zouk', 'tango', 'farro', 'hustle', 'modern styles']
+        type: String
     },
     school:String
 })

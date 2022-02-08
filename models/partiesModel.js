@@ -27,11 +27,11 @@ const partiesSchema = new mongoose.Schema(
             trim: true
         },
         timeStart: {
-            type: Date,
+            type: String,
             required: [true, 'Party must have start time'],
         },
         timeEnd: {
-            type: Date,
+            type: String,
             required: [true, 'Party must have ending time']
         },
         createdAt: {
@@ -48,7 +48,8 @@ const partiesSchema = new mongoose.Schema(
             ref: 'User'
         },
         imageCover: {
-            type: String
+            type: String,
+            default: 'http://127.0.0.1:8000/images/coverImages/defaultCoverImage.jpg'
         },
         images: [String],
     },

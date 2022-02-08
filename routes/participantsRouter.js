@@ -4,6 +4,8 @@ const participantsController = require('../controllers/participantsController')
 
 const participantsRouter = express.Router()
 
+participantsRouter.route('/party/:id').get(participantsController.getPartyParticipation)
+
 participantsRouter.use(authController.protect)
 
 participantsRouter
@@ -16,5 +18,7 @@ participantsRouter
     .get(participantsController.getParticipant)
     .patch(participantsController.updateParticipant)
     .delete(participantsController.deleteParticipant)
+
+participantsRouter.route('/user/:id').get(participantsController.getUserParticipation)
 
 module.exports = participantsRouter

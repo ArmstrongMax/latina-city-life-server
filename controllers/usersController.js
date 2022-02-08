@@ -10,12 +10,19 @@ const filterObject = require('../utils/filterObject')
 exports.uploadUserPhoto = upload.single('photo')
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     if (!req.file) return next()
-    req.file.filename = `user-${req.iser.id}-${Date.now()}.jpeg`
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`
     await sharp(req.file.buffer)
-        .resize(500, 500)
+        .resize(500)
         .toFormat('jpeg')
         .jpeg({quality: 90})
         .toFile(`public/images/users/${req.file.filename}`)
+    req.file.filenamesmall = `user-${req.user.id}-${Date.now()}-small.jpeg`
+    await sharp(req.file.buffer)
+        .resize(100, 100)
+        .toFormat('jpeg')
+        .jpeg({quality: 90})
+        .toFile(`public/images/users/${req.file.filenamesmall}`)
+    next()
 })
 
 exports.getMe = (req, res, next) => {
@@ -27,14 +34,17 @@ exports.updateMe = catchAsync(async (req,res, next)=> {
         return next(new AppError('This rout is not for changing password. Please use updateMyPassword', 400))
     }
     const filteredBody = filterObject(req.body, 'firstName', 'lastName', 'email', 'dancingSince', 'danceStyles', 'school', 'communityStatus')
-    if (req.file) filteredBody.photo = req.file.filename
+    if (req.file) {
+        filteredBody.photo = `http://127.0.0.1:8000/images/users/${req.file.filename}`
+        filteredBody.photoSmall = `http://127.0.0.1:8000/images/users/${req.file.filenamesmall}`
+    }
     const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {new: true, runValidators:true})
     res.status(200).json({
         status: 'success',
         data: {user:updatedUser}
     })
 })
-exports.deleteMe = catchAsync(async (req,res,nest)=>{
+exports.deleteMe = catchAsync(async (req,res,next)=>{
     await User.findByIdAndUpdate(req.user.id, {active: false})
     res.status(200).json({
         status: 'success',
