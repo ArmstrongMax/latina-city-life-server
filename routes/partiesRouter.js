@@ -12,7 +12,7 @@ partiesRouter
 partiesRouter
     .route('/:id')
     .get(partiesController.getParty)
-    .patch(authController.protect, partiesController.updateParty)
+    .patch(authController.protect, partiesController.uploadPartyCoverImage, partiesController.resizePartyCoverImage, partiesController.updateParty)
     .delete(authController.protect, partiesController.deleteParty)
 
 module.exports = partiesRouter

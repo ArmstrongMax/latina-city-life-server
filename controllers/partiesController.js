@@ -4,38 +4,43 @@ const catchAsync = require('../utils/CatchAsync')
 const factory = require('./handlerFactory')
 const upload = require('../utils/multerImages')
 
-exports.uploadPartieImages = upload.fields([
-    {name: 'imageCover', maxCount: 1},
-    {name: 'images', maxCount: 5}
-])
-exports.resizePartiesImages = catchAsync(async (req, res, next) => {
-    if (!req.files.imageCover || !req.files.images) return next()
-    //Cover image
-    req.body.imageCover = `party-${req.params.id}-${Date.now()}-cover.jpeg`
-    await sharp(req.files.imageCover[0].buffer)
-        .resize(1500, 1500)
+exports.uploadPartyCoverImage = upload.single('imageCover')
+exports.resizePartyCoverImage = catchAsync(async (req, res, next) => {
+    if (!req.file) return next()
+    req.file.filename = `party-${req.params.id}-${Date.now()}-cover.jpeg`
+    await sharp(req.file.buffer)
+        .resize(500)
         .toFormat('jpeg')
         .jpeg({quality: 90})
-        .toFile(`public/images/parties/${req.body.imageCover}`)
-
-//Other images
-    req.body.images = []
-    await Promise.all(
-        req.files.images.map( async (file, i) => {
-            const fileName = `party-${req.params.id}-${Date.now()}-${i+1}.jpeg`
-            await sharp(file.buffer)
-                .toFormat('jpeg')
-                .jpeg({quality: 90})
-                .toFile(`public/images/parties/${fileName}`)
-
-            req.body.push(fileName)
-        })
-    )
+        .toFile(`public/images/parties/coverImages/${req.file.filename}`)
+    req.file.filenameSmall = `party-${req.params.id}-${Date.now()}-cover-small.jpeg`
+    await sharp(req.file.buffer)
+        .resize(100)
+        .toFormat('jpeg')
+        .jpeg({quality: 90})
+        .toFile(`public/images/parties/coverImages/${req.file.filenameSmall}`)
     next()
+})
+exports.updateParty = catchAsync(async (req, res, next) => {
+    if (req.file) {
+        req.body.imageCover = `http://127.0.0.1:8000/images/parties/coverImages/${req.file.filename}`
+        req.body.imageCoverSmall = `http://127.0.0.1:8000/images/parties/coverImages/${req.file.filenameSmall}`
+    }
+
+    const doc = await Party.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    })
+    if (!doc) {
+        return next(new AppError('No document found with that ID', 404))
+    }
+    res.status(200).json({
+        status: 'success',
+        data: { data: doc }
+    })
 })
 
 exports.getAllParties = factory.getAll(Party)
 exports.getParty = factory.getOne(Party, {path: 'participants'})
 exports.createParty = factory.createOne(Party)
-exports.updateParty = factory.updateOne(Party)
 exports.deleteParty = factory.deleteOne(Party)

@@ -15,7 +15,7 @@ const usersSchema = new mongoose.Schema({
     },
     email:{
         type:String,
-        required: [true, 'User must have a name'],
+        required: [true, 'User must have a email'],
         unique: true,
         lowercase: true,
         trim: true,
@@ -32,7 +32,7 @@ const usersSchema = new mongoose.Schema({
 
     systemRole: {
         type: String,
-        enum: ['пользователь', 'администратор', 'модератор'],
+        enum: ['user', 'admin'],
         default: 'user'
     },
     password: {
