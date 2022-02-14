@@ -9,7 +9,6 @@ const sendErrorDev = (err, req, res) => {
             stack: err.stack
         })
     }
-    console.log(err)
     return res.status(err.statusCode).render('error', {
         title: 'Something went wrong...',
         msg: err.message

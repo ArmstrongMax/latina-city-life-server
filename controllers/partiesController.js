@@ -15,7 +15,7 @@ exports.resizePartyCoverImage = catchAsync(async (req, res, next) => {
         .toFile(`public/images/parties/coverImages/${req.file.filename}`)
     req.file.filenameSmall = `party-${req.params.id}-${Date.now()}-cover-small.jpeg`
     await sharp(req.file.buffer)
-        .resize(100)
+        .resize(100, 100)
         .toFormat('jpeg')
         .jpeg({quality: 90})
         .toFile(`public/images/parties/coverImages/${req.file.filenameSmall}`)

@@ -8,6 +8,7 @@ const usersRouter = require('./routes/usersRouter')
 const partiesRouter = require ('./routes/partiesRouter')
 const participantsRouter = require('./routes/participantsRouter')
 const imagesRouter = require('./routes/imagesRouter')
+const compression = require('compression')
 
 
 const app = express();
@@ -20,7 +21,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
-
+app.use(compression())
 
 app.use('/api/v1/parties', partiesRouter)
 app.use('/api/v1/users', usersRouter)

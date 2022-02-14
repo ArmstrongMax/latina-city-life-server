@@ -23,7 +23,7 @@ this.populate({
     select:['firstName', 'photoSmall'],
 }).populate({
     path: 'party',
-    select: ['name', 'imageCover']
+    select: ['name', 'imageCoverSmall']
 })
     next()
 })
