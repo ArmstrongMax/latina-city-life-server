@@ -23,8 +23,8 @@ exports.resizePartyCoverImage = catchAsync(async (req, res, next) => {
 })
 exports.updateParty = catchAsync(async (req, res, next) => {
     if (req.file) {
-        req.body.imageCover = `http://127.0.0.1:8000/images/parties/coverImages/${req.file.filename}`
-        req.body.imageCoverSmall = `http://127.0.0.1:8000/images/parties/coverImages/${req.file.filenameSmall}`
+        req.body.imageCover = `${process.env.HOST || process.env.LOCAL_HOST}/images/parties/coverImages/${req.file.filename}`
+        req.body.imageCoverSmall = `${process.env.HOST || process.env.LOCAL_HOST}/images/parties/coverImages/${req.file.filenameSmall}`
     }
 
     const doc = await Party.findByIdAndUpdate(req.params.id, req.body, {

@@ -23,11 +23,11 @@ const usersSchema = new mongoose.Schema({
     },
     photo:{
         type: String,
-        default: 'http://127.0.0.1:8000/images/users/defaultUserImage.png'
+        default: `${process.env.HOST || process.env.LOCAL_HOST}/images/users/defaultUserImage.png`
     },
     photoSmall:{
         type: String,
-        default: 'http://127.0.0.1:8000/images/users/defaultUserImage-small.png'
+        default: `${process.env.HOST || process.env.LOCAL_HOST}/images/users/defaultUserImage-small.png`
     },
 
     systemRole: {

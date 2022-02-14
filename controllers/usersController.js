@@ -35,8 +35,8 @@ exports.updateMe = catchAsync(async (req,res, next)=> {
     }
     const filteredBody = filterObject(req.body, 'firstName', 'lastName', 'email', 'dancingSince', 'danceStyles', 'school', 'communityStatus')
     if (req.file) {
-        filteredBody.photo = `http://127.0.0.1:8000/images/users/${req.file.filename}`
-        filteredBody.photoSmall = `http://127.0.0.1:8000/images/users/${req.file.filenamesmall}`
+        filteredBody.photo = `${process.env.HOST || process.env.LOCAL_HOST}/images/users/${req.file.filename}`
+        filteredBody.photoSmall = `${process.env.HOST || process.env.LOCAL_HOST}/images/users/${req.file.filenamesmall}`
     }
     const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {new: true, runValidators:true})
     res.status(200).json({

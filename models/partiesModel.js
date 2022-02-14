@@ -49,11 +49,11 @@ const partiesSchema = new mongoose.Schema(
         },
         imageCover: {
             type: String,
-            default: 'http://127.0.0.1:8000/images/coverImages/defaultCoverImage.jpg'
+            default: `${process.env.HOST || process.env.LOCAL_HOST}/images/coverImages/defaultCoverImage.jpg`
         },
         imageCoverSmall: {
             type: String,
-            default: 'http://127.0.0.1:8000/images/coverImages/defaultCoverImage-small.jpg'
+            default: `${process.env.HOST || process.env.LOCAL_HOST}/images/coverImages/defaultCoverImage-small.jpg`
         },
         images: [String],
     },
